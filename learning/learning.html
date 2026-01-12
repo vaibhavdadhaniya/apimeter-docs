@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Meter - Learning Center</title>
+    <link rel="icon" href="assets/favicon-black.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" href="assets/favicon-white.png" media="(prefers-color-scheme: dark)">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            /* Premium Dark Theme Palette */
+            --bg-primary: #030712;
+            --bg-secondary: #0f172a;
+            --bg-tertiary: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #6366f1;
+            /* Indigo-500 */
+            --accent-glow: rgba(99, 102, 241, 0.4);
+            --border: rgba(148, 163, 184, 0.1);
+            --card-bg: rgba(30, 41, 59, 0.4);
+            --sidebar-width: 280px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 40%);
+        }
+
+        /* Custom Scrollbar - Professional Look */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+            border-left: 1px solid var(--border);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-tertiary);
+            border-radius: 5px;
+            border: 2px solid var(--bg-primary);
+            /* Creates padding effect */
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+
+        /* Sidebar - Glassmorphism */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            letter-spacing: -0.02em;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .nav-group {
+            margin-bottom: 2rem;
+        }
+
+        .nav-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            opacity: 0.7;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(4px);
+        }
+
+        .nav-link.active {
+            color: white;
+            background: linear-gradient(90deg, rgba(99, 102, 241, 0.15), transparent);
+            font-weight: 600;
+            border-left: 3px solid var(--accent);
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-link.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 16px;
+            width: 3px;
+            background: var(--accent);
+            border-radius: 0 4px 4px 0;
+        }
+
+        .sidebar-footer {
+            padding: 1.25rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            background: rgba(3, 7, 18, 0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            padding-bottom: 4rem;
+        }
+
+        .content-container {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 5rem 3rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 2rem;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-primary);
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        h2::before {
+            content: '#';
+            color: var(--accent);
+            opacity: 0.5;
+            font-size: 0.8em;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin: 2.5rem 0 1rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+        }
+
+        .lead {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            max-width: 65ch;
+        }
+
+        /* Feature Cards */
+        .note {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .note-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            opacity: 0.8;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(30, 41, 59, 1);
+            padding: 0.2rem 0.4rem;
+            border-radius: 6px;
+            font-size: 0.85em;
+            color: #e2e8f0;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        pre {
+            background: #0b101b;
+            /* Darker than bg */
+            padding: 1.5rem;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: #e2e8f0;
+            border: none;
+        }
+
+        /* Premium Screenshots */
+        .screenshot {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 0.5rem;
+            margin: 2.5rem 0;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.4);
+        }
+
+        .screenshot-placeholder {
+            width: 100%;
+            height: 350px;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-weight: 500;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .screenshot-placeholder::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.05' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* Step List */
+        .step-list {
+            list-style: none;
+            padding: 0;
+            counter-reset: step-counter;
+        }
+
+        .step-list li {
+            position: relative;
+            padding-left: 4rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .step-list li::before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, var(--bg-tertiary), var(--bg-secondary));
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            border-radius: 8px;
+            /* Square with radius looks more techy */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Mobile */
+        .mobile-toggle {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: block;
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                z-index: 100;
+                padding: 1rem;
+                border-radius: 50%;
+                border: none;
+                background: var(--accent);
+                color: white;
+            }
+
+            .sidebar {
+                position: fixed;
+                left: -100%;
+                height: 100%;
+                width: 100%;
+                transition: left 0.3s ease;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .content-container {
+                padding: 3rem 1.5rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <button class="mobile-toggle" onclick="document.querySelector('.sidebar').classList.toggle('active')">☰</button>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="index.html" class="logo">
+                <img src="assets/logo.png" alt="API Meter" height="28">
+            </a>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-group">
+                <div class="nav-title">Introduction</div>
+                <a href="#welcome" class="nav-link active">Welcome</a>
+                <a href="#quickstart" class="nav-link">Quick Start</a>
+                <a href="#comparison" class="nav-link">Vs Postman</a>
+            </div>
+
+            <div class="nav-group">
+                <div class="nav-title">Fundamentals</div>
+                <a href="#collections" class="nav-link">Collections & Folders</a>
+                <a href="#requests" class="nav-link">Building Requests</a>
+                <a href="#variables" class="nav-link">Variables & Scope</a>
+            </div>
+
+            <div class="nav-group">
+                <div class="nav-title">Advanced Features</div>
+                <a href="#workflows" class="nav-link">Visual Workflows</a>
+                <a href="#runner" class="nav-link">Collection Runner</a>
+                <a href="#scripting" class="nav-link">Scripting Engine</a>
+                <a href="#history" class="nav-link">History</a>
+                <a href="#versioning" class="nav-link">Versioning & Diff</a>
+                <a href="#collaboration" class="nav-link">Collaboration</a>
+            </div>
+
+            <div class="nav-group">
+                <div class="nav-title">Security & Compliance</div>
+                <a href="#security" class="nav-link">Security Overview</a>
+            </div>
+
+            <div class="nav-group">
+                <div class="nav-title">New Features</div>
+                <a href="#teams" class="nav-link">Team Management</a>
+                <a href="#trash" class="nav-link">Trash & Recovery</a>
+                <a href="#code-editor" class="nav-link">Intelligent Code Editor</a>
+                <a href="#bot-bypass" class="nav-link">Smart Bot Bypass</a>
+                <a href="#export" class="nav-link">Export & Reporting</a>
+                <a href="#move-collections" class="nav-link">Move Collections</a>
+                <a href="#feature-guards" class="nav-link">Feature Guards</a>
+                <a href="#capacity-testing" class="nav-link">Capacity Testing</a>
+            </div>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="https://apimeter.io" class="nav-link"
+                style="background: var(--accent); color: white; border: none;">Launch App &rarr;</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="content-container">
+
+            <!-- Welcome -->
+            <section id="welcome">
+                <h1>API Meter Learning Center</h1>
+                <p class="lead">Master modern API orchestration. Move beyond linear request chaining and embrace a
+                    visual, clarity-first approach to API testing.</p>
+
+                <div class="note">
+                    <span class="note-title">The API Meter Philosophy</span>
+                    <p style="margin: 0; font-size: 0.95rem;">
+                        Tools like Postman were built for a different era. API Meter mimics the power of established
+                        tools but introduces a revolutionary <strong>Visual Workflow Canvas</strong>, context-aware
+                        <strong>Variables</strong>, and instant <strong>Version Control</strong>.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Quick Start -->
+            <section id="quickstart">
+                <h2>Quick Start</h2>
+                <p>Send your first request in seconds. No setup required.</p>
+
+                <ol class="step-list">
+                    <li>
+                        <strong>Create a Workspace</strong>
+                        <p>Upon logging in, you start in your 'Personal' workspace. This is your sandbox.</p>
+                    </li>
+                    <li>
+                        <strong>Create a Collection</strong>
+                        <p>Click the <code>+</code> button in the sidebar. Name it "Demo API". This acts as your folder
+                            root.</p>
+                    </li>
+                    <li>
+                        <strong>Add a Request</strong>
+                        <p>Hover over your collection, click <code>...</code> &rarr; <strong>Add Request</strong>.
+                            Enter a URL (e.g., <code>https://api.public.com/users</code>).</p>
+                    </li>
+                    <li>
+                        <strong>Send</strong>
+                        <p>Hit the white <strong>Send</strong> button. Inspect the status code and JSON response in the
+                            panel below.</p>
+                    </li>
+                </ol>
+
+
+            </section>
+
+            <!-- Comparison (Moved after Quick Start) -->
+            <section id="comparison">
+                <h2>Vs Postman</h2>
+                <p>Why developers are switching to API Meter.</p>
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid var(--border);">
+                                <th style="text-align: left; padding: 1rem; color: var(--text-primary);">Feature</th>
+                                <th style="text-align: left; padding: 1rem; color: var(--accent);">API Meter</th>
+                                <th style="text-align: left; padding: 1rem; color: var(--text-secondary);">Legacy Tools
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 1rem;">Workflows</td>
+                                <td style="padding: 1rem; color: var(--text-primary);"><strong>Visual Canvas</strong>
+                                    (Drag & Drop)</td>
+                                <td style="padding: 1rem;">Scripted / Linear</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 1rem;">Data Passing</td>
+                                <td style="padding: 1rem; color: var(--text-primary);"><strong>Auto-extracted</strong>
+                                </td>
+                                <td style="padding: 1rem;">Manual Scripts</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 1rem;">Versioning</td>
+                                <td style="padding: 1rem; color: var(--text-primary);"><strong>Native Snapshots</strong>
+                                </td>
+                                <td style="padding: 1rem;">Duplicating requests</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 1rem;">Performance</td>
+                                <td style="padding: 1rem; color: var(--text-primary);"><strong>Instant Load</strong>
+                                </td>
+                                <td style="padding: 1rem;">Heavy</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Collections -->
+            <section id="collections">
+                <h2>Collections & Folders</h2>
+                <p>Collections organize your requests. They define the structure of your project and can hold shared
+                    authentication settings.</p>
+
+                <h3>Recommended Structure</h3>
+                <pre><code>📦 My E-Commerce API
+ ┣ 📂 Users
+ ┃ ┣ 📄 Get All Users
+ ┃ ┣ 📄 Create User
+ ┃ ┗ 📄 Login
+ ┣ 📂 Products
+ ┃ ┣ 📄 Search Products
+ ┃ ┗ 📄 Get Inventory</code></pre>
+
+                <h3>Importing Data</h3>
+                <p>Switching from Postman? Click <strong>Import</strong> in the sidebar, upload your Collection JSON,
+                    and we'll migrate your folders, requests, and scripts instantly.</p>
+            </section>
+
+            <!-- Requests -->
+            <section id="requests">
+                <h2>Building Requests</h2>
+                <p>The Request Builder is the heart of API Meter. It supports all standard HTTP methods (GET, POST, PUT,
+                    DELETE, PATCH).</p>
+
+                <h3>Headers & Parameters</h3>
+                <p>Use the grid editor to manage <code>Query Params</code> and <code>Headers</code>. Toggle items on/off
+                    without deleting them to test different scenarios.</p>
+
+                <h3>Body Editor</h3>
+                <p>We support multiple body types with full syntax highlighting:</p>
+                <ul>
+                    <li><strong>JSON</strong>: Auto-formatted with error detection.</li>
+                    <li><strong>Form Data</strong>: For multipart file uploads.</li>
+                    <li><strong>x-www-form-urlencoded</strong>: Key-value pairs.</li>
+                </ul>
+
+                <h3>Authentication</h3>
+                <p>Never hardcode tokens. Use the <strong>Auth</strong> tab for secure credential management.</p>
+                <div class="note">
+                    <span class="note-title">Best Practice</span>
+                    Use "Inherit from Parent" auth on your requests. Set the Bearer Token once on the
+                    <strong>Collection</strong> level, and all requests inside will automatically use it.
+                </div>
+            </section>
+
+            <!-- Variables -->
+            <section id="variables">
+                <h2>Variables & Scope</h2>
+                <p>Stop copy-pasting ID strings. Use variables. Reference them anywhere using double curly braces:
+                    <code>{{user_id}}</code>.
+                </p>
+
+                <h3>Smart Autocomplete</h3>
+                <p>Type <code>{{</code> in any field (URL, Headers, Body) to see a dropdown of all available variables
+                    and their current resolved values.</p>
+
+                <h3>Scope Priority</h3>
+                <ol class="step-list">
+                    <li>
+                        <strong>Workflow Variables</strong> (Highest)
+                        <p>Dynamic data passed from a previous node in a visual workflow.</p>
+                    </li>
+                    <li>
+                        <strong>Environment Variables</strong>
+                        <p>Context-specific values (e.g., <code>base_url</code> changes between Staging and Prod).</p>
+                    </li>
+                    <li>
+                        <strong>Global Variables</strong> (Lowest)
+                        <p>Constants available across the entire workspace.</p>
+                    </li>
+                </ol>
+            </section>
+
+            <!-- Workflows -->
+            <section id="workflows">
+                <h2>Visual Workflows <span class="badge"
+                        style="background: var(--warning); color: #000; vertical-align: middle; margin-left: 10px; font-size: 0.6em;">Coming
+                        Soon</span></h2>
+                <p>Orchestrate complex sequences visually. No hidden scripts. No invisible dependencies.</p>
+
+                <div class="note">
+                    <span class="note-title">In Development</span>
+                    <p style="margin: 0; font-size: 0.95rem;">
+                        We are actively building a revolutionary node-based canvas for API chaining. You will be able to
+                        drag, drop, and wire requests together to pass data automatically.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Capacity Testing -->
+            <section id="capacity-testing">
+                <h2>Capacity Testing <span class="badge"
+                        style="background: var(--warning); color: #000; vertical-align: middle; margin-left: 10px; font-size: 0.6em;">Coming
+                        Soon</span></h2>
+                <p>Native load testing to ensure your API handles scale.</p>
+
+                <div class="note">
+                    <span class="note-title">In Development</span>
+                    <p style="margin: 0; font-size: 0.95rem;">
+                        Simulate virtual users and measure throughput directly from the API Meter interface.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Runner -->
+            <section id="runner">
+                <h2>Collection Runner</h2>
+                <p>Testing a full sequence? The Collection Runner executes every request in a folder in order.</p>
+                <ul>
+                    <li><strong>Iterations</strong>: Upload a CSV/JSON file to run the collection once for each row of
+                        data.</li>
+                    <li><strong>Delays</strong>: Add pauses between requests to avoid rate limits.</li>
+                    <li><strong>Data Persistence</strong>: Toggle whether variables are updated during the run.</li>
+                </ul>
+            </section>
+
+            <!-- Scripting -->
+            <section id="scripting">
+                <h2>Scripting Engine</h2>
+                <p>For power users, API Meter exposes a full JavaScript runtime. Use simpler syntax than you're used to.
+                </p>
+                <ul>
+                    <li><strong>Pre-request Scripts</strong>: Run JS before a request is sent (e.g. generate
+                        timestamps).</li>
+                    <li><strong>Tests</strong>: Write assertions on the response.</li>
+                </ul>
+                <div
+                    style="background: #0b101b; padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; color: #e2e8f0; font-size: 0.85em;">
+                    <span style="color: #64748b;">// Set a variable</span><br>
+                    pm.environment.set(<span style="color: #34d399;">"token"</span>, <span
+                        style="color: #34d399;">"12345"</span>);<br><br>
+                    <span style="color: #64748b;">// Test response</span><br>
+                    pm.test(<span style="color: #34d399;">"Status is 200"</span>, <span
+                        style="color: #c084fc;">function</span> () {<br>
+                    &nbsp;&nbsp;pm.response.to.have.status(<span style="color: #f472b6;">200</span>);<br>
+                    });
+                </div>
+            </section>
+
+            <!-- History -->
+            <section id="history">
+                <h2>History</h2>
+                <p>Your "Time Machine" for requests. Every request sent is auto-saved in the History tab. Click any
+                    entry to instantly restore the editor to that exact state.</p>
+            </section>
+
+            <!-- Versioning & Comparison (NEW) -->
+            <section id="versioning">
+                <h2>Versioning & Comparison</h2>
+                <p>API Meter treats requests like code. You can save named snapshots of a request to safely experiment
+                    without losing working configurations.</p>
+
+
+
+                <h3>Creating Versions</h3>
+                <p>Click the <strong>Save Version</strong> icon in the header. Name it (e.g., "v1.0 Stable"). You can
+                    now modify the request freely. If you break it, just switch back to "v1.0 Stable" from the dropdown.
+                </p>
+
+                <h3>Side-by-Side Comparison</h3>
+                <p>Unsure what changed between "v1.0" and "v2.0"? Open the <strong>Diff View</strong>. We visually
+                    highlight changes in:</p>
+                <ul>
+                    <li>Method & URL</li>
+                    <li>Headers (Added/Removed/Modified)</li>
+                    <li>JSON Body (Line-by-line diff)</li>
+                </ul>
+            </section>
+
+            <!-- Collaboration -->
+            <section id="collaboration">
+                <h2>Collaboration</h2>
+                <p>Work together without the friction.</p>
+
+                <h3>Sharing Collections</h3>
+                <p>Click the <strong>Share</strong> icon on any collection to generate a link or invite team members
+                    directly.</p>
+
+                <h3>Export Documentation</h3>
+                <p>Turn your collection into a read-only website similar to this one. Great for public APIs.</p>
+            </section>
+
+            <!-- Smart Bot Bypass -->
+            <section id="bot-bypass">
+                <h2>Smart Bot Bypass</h2>
+                <p>Use our advanced header emulation to test APIs protected by strict WAFs or bot detection filters
+                    (like Cloudflare).</p>
+
+                <h3>How to Use</h3>
+                <ol class="step-list">
+                    <li>
+                        <strong>Select Headers</strong>
+                        <p>In the request builder, ensure your <code>User-Agent</code> and other browser-like headers
+                            are configured.</p>
+                    </li>
+                    <li>
+                        <strong>Automatic Emulation</strong>
+                        <p>API Meter automatically attempts to structure the request fingerprint to mimic a legitimate
+                            browser interaction, helping you bypass standard bot blocks during testing.</p>
+                    </li>
+                </ol>
+            </section>
+
+            <!-- Export & Reporting -->
+            <section id="export">
+                <h2>Export & Reporting</h2>
+                <p>Generate detailed test reports for compliance and stakeholder sharing.</p>
+
+                <h3>Generating Reports</h3>
+                <ol class="step-list">
+                    <li>
+                        <strong>Run Collection</strong>
+                        <p>Use the <strong>Collection Runner</strong> to execute your test suite.</p>
+                    </li>
+                    <li>
+                        <strong>View Summary</strong>
+                        <p>Once the run is complete, you will see a detailed summary of passed/failed tests.</p>
+                    </li>
+                    <li>
+                        <strong>Export</strong>
+                        <p>Click the <strong>Export PDF</strong> or <strong>Export Excel</strong> buttons in the top
+                            right of the runner results to download a professional report.</p>
+                    </li>
+                </ol>
+            </section>
+
+            <!-- Move Collections -->
+            <section id="move-collections">
+                <h2>Move Collections</h2>
+                <p>Easily reorganize your work across different workspaces.</p>
+
+                <h3>Steps</h3>
+                <ol class="step-list">
+                    <li>
+                        <strong>Context Menu</strong>
+                        <p>Right-click (or click the <code>...</code> menu) on any Collection in the sidebar.</p>
+                    </li>
+                    <li>
+                        <strong>Select Move</strong>
+                        <p>Choose <strong>Move to Workspace</strong> from the dropdown menu.</p>
+                    </li>
+                    <li>
+                        <strong>Choose Destination</strong>
+                        <p>Select the target workspace from the list. Your collection, including all requests and
+                            history, will be transferred instantly.</p>
+                    </li>
+                </ol>
+            </section>
+
+            <!-- Feature Guards -->
+            <section id="feature-guards">
+                <h2>Feature Guards</h2>
+                <p>Manage access to experimental functionality.</p>
+                <h3>Configuration</h3>
+                <p>Admins can toggle beta features in Workspace Settings > Features to maintain team stability.</p>
+            </section>
+
+            <!-- Team & Workspace Management -->
+            <section id="teams">
+                <h2>Team & Workspace Management</h2>
+                <p>Scale your API development with enterprise-grade collaboration features.</p>
+
+                <h3>Role-Based Access Control (RBAC)</h3>
+                <p>Assign granular permissions to team members to secure your workspace:</p>
+                <ul>
+                    <li><strong>Admin</strong>: Full access to manage members and workspace settings.</li>
+                    <li><strong>Editor</strong>: Can create, edit, and delete collections and requests.</li>
+                    <li><strong>Viewer</strong>: Read-only access to view documentation and run requests.</li>
+                </ul>
+
+                <h3>Member Invitations</h3>
+                <p>
+                    Invite colleagues directly from the "Workspace Settings" dialog. Invitations are delivered as in-app
+                    notifications,
+                    allowing you to manage pending invites and revoke access instantly when needed.
+                </p>
+
+            </section>
+
+            <!-- Trash & Recovery -->
+            <section id="trash">
+                <h2>Trash & Recovery</h2>
+                <p>Safety net for your data. Never lose work accidentally.</p>
+
+                <h3>Restore Deleted Items</h3>
+                <p>Deleted collections and requests are moved to the <strong>Trash Bin</strong> instead of being
+                    permanently erased. You can view deleted items and restore them to their original location with a
+                    single click.</p>
+            </section>
+
+            <!-- Intelligent Code Editor -->
+            <section id="code-editor">
+                <h2>Intelligent Code Editor</h2>
+                <p>A powerful, VS Code-like editing experience built directly into API Meter.</p>
+
+                <h3>Features</h3>
+                <ul>
+                    <li><strong>JSON Key Suggestions</strong>: Get context-aware autocomplete for common API keys and
+                        values while typing in the body editor.</li>
+                    <li><strong>Smart Variable Autocomplete</strong>: Type <code>{{</code> to instantly see a dropdown
+                        of all available environment and global variables.</li>
+                    <li><strong>Syntax Highlighting</strong>: Full color-coding for JSON, XML, JavaScript, and more.
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Security -->
+            <section id="security">
+                <h2>Security Architecture</h2>
+                <p>API Meter is built with a security-first approach, ensuring your data and tokens remain safe using
+                    enterprise capabilities.</p>
+
+                <h3>Data Encryption</h3>
+                <p>All sensitive variables and tokens are encrypted at rest using <strong>AES-256-GCM</strong>. We
+                    utilize a secure Vault architecture to ensure that keys are never exposed in plain text logs or
+                    database dumps.</p>
+
+                <h3>Sandboxed Execution</h3>
+                <p>The Scripting Engine runs in an isolated V8 context, preventing any malicious code from accessing
+                    your local file system or network outside of the intended request scope.</p>
+
+                <div class="note">
+                    <span class="note-title">Compliance</span>
+                    API Meter is designed to be SOC2 compliant ready, with comprehensive audit logging and role-based
+                    access control (RBAC).
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script>
+        // Highlighting active nav section
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

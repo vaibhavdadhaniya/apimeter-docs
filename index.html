@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MeterHub - API Testing Platform</title>
+    <title>API Meter - API Testing Platform</title>
+    <link rel="icon" href="assets/favicon-black.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" href="assets/favicon-white.png" media="(prefers-color-scheme: dark)">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -586,22 +588,18 @@
     <header>
         <div class="container nav-content">
             <div class="logo">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
-                </svg>
-                MeterHub
+                <img src="assets/logo.png" alt="API Meter" height="32" style="margin-right: 0.5rem;">
             </div>
             <nav>
                 <ul>
                     <li><a href="#overview">Overview</a></li>
                     <li><a href="#features">Features</a></li>
                     <li><a href="#auth">Authentication</a></li>
-                    <li><a href="#admin">Admin</a></li>
-                    <li><a href="#docs">Docs</a></li>
+
+                    <li><a href="learning.html">Docs</a></li>
                 </ul>
             </nav>
-            <a href="https://meterhub-frontend.onrender.com/" class="btn btn-primary">Launch App</a>
+            <a href="https://apimeter.io" class="btn btn-primary">Launch App</a>
         </div>
     </header>
 
@@ -612,7 +610,7 @@
             <p class="animate delay-1">Streamline your workflow with a powerful, beautiful, and intuitive API testing
                 platform. Built for speed, designed for collaboration.</p>
             <div class="animate delay-2">
-                <a href="#getting-started" class="btn btn-primary">Get Started</a>
+                <a href="https://apimeter.io" class="btn btn-primary">Get Started</a>
             </div>
 
             <div class="screenshot-container animate delay-3">
@@ -647,6 +645,75 @@
                         <div class="card-icon">👥</div>
                         <h3>Team Collaboration</h3>
                         <p>Share collections and collaborate with your team in real-time.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Beta Features -->
+        <section class="section"
+            style="background: linear-gradient(to bottom, var(--bg-primary), var(--bg-secondary));">
+            <div class="container">
+                <h2 class="section-title" style="color: var(--accent);">🚀 New in Public Beta</h2>
+
+                <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));">
+                    <div class="card" style="border-color: var(--text-secondary); opacity: 0.8;">
+                        <div class="card-icon" style="filter: grayscale(1);">⚡</div>
+                        <h3>Visual Workflow Builder <span class="badge"
+                                style="background: var(--warning); color: #000; font-size: 0.7rem; margin-left: 0.5rem;">Coming
+                                Soon</span></h3>
+                        <p>Orchestrate complex API flows visually. Connect request nodes to pass data tokens
+                            automatically without scripting. (In Progress)</p>
+                    </div>
+                    <div class="card" style="border-color: var(--success);">
+                        <div class="card-icon">🔄</div>
+                        <h3>Request Versioning</h3>
+                        <p>Snapshot your requests. Create named versions (v1, v1.2) of a single endpoint and "diff" them
+                            side-by-side to track changes.</p>
+                    </div>
+                    <div class="card" style="border-color: var(--text-secondary); opacity: 0.8;">
+                        <div class="card-icon" style="filter: grayscale(1);">📈</div>
+                        <h3>Native Capacity Testing <span class="badge"
+                                style="background: var(--warning); color: #000; font-size: 0.7rem; margin-left: 0.5rem;">Coming
+                                Soon</span></h3>
+                        <p>Stress test your APIs instantly. Spin up 50+ virtual users directly from the UI to measure
+                            throughput. (In Progress)</p>
+                    </div>
+                    <div class="card" style="border-color: var(--danger);">
+                        <div class="card-icon">🛡️</div>
+                        <h3>Smart Bot Bypass</h3>
+                        <p>Advanced header emulation. ApiMeter automatically mimics legitimate browser signatures to
+                            bypass Cloudflare and WAF blocks during testing.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">💾</div>
+                        <h3>Script Persistence</h3>
+                        <p>Write robust pre-request and test scripts in JS. Your code is now fully persisted and
+                            versioned with your collections.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🔒</div>
+                        <h3>Feature Guards</h3>
+                        <p>Enterprise-grade feature management. Safely toggle experimental features on/off globally or
+                            per-workspace.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🏃</div>
+                        <h3>Collection Runner</h3>
+                        <p>Execute entire collections sequentially. Automate your testing workflows with integrated
+                            scripting and assertions.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📄</div>
+                        <h3>Export PDF & Excel</h3>
+                        <p>Share your work offline. Export comprehensive API documentation and test results to
+                            professional PDF and Excel formats.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📦</div>
+                        <h3>Move Collections</h3>
+                        <p>Reorganize effortlessly. Move entire collections and their history between workspaces with
+                            zero friction.</p>
                     </div>
                 </div>
             </div>
@@ -722,7 +789,7 @@
                         <div class="screenshot-placeholder">
                             <!-- Add screenshot: assets/request_builder.png -->
                             <div class="screenshot-img">
-                                <img src="assets/request_screen.png" alt="">
+                                <img src="assets/dashboard_screen.png" alt="">
                             </div>
                         </div>
                     </div>
@@ -799,6 +866,31 @@
                     </div>
                 </div>
 
+                <!-- Request Versioning (New) -->
+                <div class="feature-row">
+                    <div>
+                        <h3>Request Versioning & Diffing</h3>
+                        <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">
+                            Manage API evolution with confidence. Create snapshots of your requests and visually compare
+                            changes over time.
+                        </p>
+                        <ul style="list-style: none; color: var(--text-secondary);">
+                            <li style="margin-bottom: 0.5rem;">✓ Named Versions (e.g. "v1.0", "Draft")</li>
+                            <li style="margin-bottom: 0.5rem;">✓ Side-by-Side Diff View</li>
+                            <li style="margin-bottom: 0.5rem;">✓ Rollback Instantly</li>
+                            <li>✓ Track Header & Body Changes</li>
+                        </ul>
+                    </div>
+                    <div class="screenshot-container" style="margin: 0;">
+                        <div class="screenshot-placeholder">
+                            <!-- Add screenshot: assets/versioning.png -->
+                            <div class="screenshot-img">
+                                <img src="assets/request_versioning.png" alt="Request Versioning and Diffing">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -837,7 +929,7 @@
                         <div class="screenshot-placeholder">
                             <!-- Add screenshot: assets/variables.png -->
                             <div class="screenshot-img">
-                                <img src="assets/variableManager_screen.png" alt="">
+                                <img src="assets/environment_screen.png" alt="">
                             </div>
                         </div>
                     </div>
@@ -875,102 +967,7 @@
             </div>
         </section>
 
-        <!-- Admin Features -->
-        <section id="admin" class="section">
-            <div class="container">
-                <h2 class="section-title">🔧 Admin Features</h2>
-                <p
-                    style="text-align: center; margin-bottom: 3rem; color: var(--text-secondary); max-width: 700px; margin-left: auto; margin-right: auto;">
-                    Powerful administrative tools for system monitoring and control.
-                </p>
 
-                <!-- Maintenance Mode -->
-                <div class="feature-row">
-                    <div>
-                        <h3>Maintenance Mode</h3>
-                        <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">
-                            Control system-wide maintenance with custom messaging and admin-only access during downtime.
-                        </p>
-                        <ul style="list-style: none; color: var(--text-secondary);">
-                            <li style="margin-bottom: 0.5rem;">✓ System-Wide Toggle</li>
-                            <li style="margin-bottom: 0.5rem;">✓ Custom Maintenance Message</li>
-                            <li style="margin-bottom: 0.5rem;">✓ Admin Access During Maintenance</li>
-                            <li style="margin-bottom: 0.5rem;">✓ Live Preview</li>
-                            <li style="margin-bottom: 0.5rem;">✓ Automatic User Redirection</li>
-                            <li>✓ Toast Notifications</li>
-                        </ul>
-                    </div>
-                    <div class="screenshot-container" style="margin: 0;">
-                        <div class="screenshot-placeholder">
-                            <!-- Add screenshot: assets/maintenance_mode.png -->
-                            <div class="screenshot-img">
-                                <img src="assets/maintenance_mode.png" alt="Maintenance Mode Settings">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- User Analytics -->
-                <div class="feature-row reverse">
-                    <div>
-                        <h3>User Analytics Dashboard</h3>
-                        <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">
-                            Comprehensive analytics to monitor system usage, user activity, and API request patterns.
-                        </p>
-
-                        <h4 style="margin-bottom: 1rem; color: var(--text-primary); font-size: 1.1rem;">Statistics
-                            Tracked:</h4>
-                        <ul style="list-style: none; color: var(--text-secondary);">
-                            <li style="margin-bottom: 0.5rem;">📊 Total Users</li>
-                            <li style="margin-bottom: 0.5rem;">👥 Daily Active Users (DAU)</li>
-                            <li style="margin-bottom: 0.5rem;">📁 Total Collections Created</li>
-                            <li style="margin-bottom: 0.5rem;">🚀 Requests Sent Today</li>
-                            <li style="margin-bottom: 0.5rem;">📈 HTTP Methods Distribution</li>
-                            <li style="margin-bottom: 0.5rem;">🏆 Top 10 Active Users</li>
-                            <li>⚠️ Error Analytics (4xx & 5xx)</li>
-                        </ul>
-
-                        <div
-                            style="margin-top: 1.5rem; padding: 1rem; background: rgba(59, 130, 246, 0.1); border-radius: 8px; border-left: 3px solid var(--accent);">
-                            <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">
-                                <strong style="color: var(--text-primary);">Privacy First:</strong> Only tracks
-                                non-admin user activity and external API requests. Internal MeterHub operations are
-                                excluded.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="screenshot-container" style="margin: 0;">
-                        <div class="screenshot-placeholder">
-                            <!-- Add screenshot: assets/user_analytics.png -->
-                            <div class="screenshot-img">
-                                <img src="assets/user_analytics.png" alt="User Analytics Dashboard">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Feature Control & Audit Logs -->
-                <div class="grid" style="margin-top: 4rem;">
-                    <div class="card">
-                        <div class="card-icon">⚙️</div>
-                        <h3>Feature Control</h3>
-                        <p>Enable or disable system features globally. Control access to collections, history,
-                            environments, and more.</p>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">📋</div>
-                        <h3>Audit Logs</h3>
-                        <p>Track all admin actions and system events. Maintain a complete audit trail for security and
-                            compliance.</p>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">👤</div>
-                        <h3>User Management</h3>
-                        <p>View and manage user accounts. Update roles, disable accounts, and monitor user activity.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
 
     </main>
 
@@ -984,7 +981,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 MeterHub. All rights reserved.</p>
+            <p>&copy; 2025 API Meter. All rights reserved.</p>
         </div>
     </footer>
 
